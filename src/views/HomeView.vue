@@ -156,6 +156,7 @@ import { Reading, Document, Collection, ChatDotRound, Upload } from '@element-pl
 import { getTeachingPlanList } from '@/api/teaching'
 import { getDocumentList } from '@/api/document'
 import { getKnowledgeBaseList } from '@/api/knowledge'
+import { getConversationList } from '@/api/chat'
 import { formatRelativeTime, formatFileSize } from '@/utils/format'
 import type { TeachingPlanListVO, DocumentListVO } from '@/types'
 
@@ -188,7 +189,7 @@ async function loadData() {
     // 加载文档（分页数据）
     const docRes = await getDocumentList({
       current: 1,
-      size: 100
+      size: 10000
     })
     if (docRes.success && docRes.data) {
       stats.value.documentCount = docRes.data.total || docRes.data.records?.length || 0
@@ -198,10 +199,16 @@ async function loadData() {
     // 加载知识库（分页数据）
     const kbRes = await getKnowledgeBaseList({
       current: 1,
-      size: 100
+      size: 10000
     })
     if (kbRes.success && kbRes.data) {
       stats.value.knowledgeCount = kbRes.data.total || kbRes.data.records?.length || 0
+    }
+
+    // 加载会话列表
+    const conversationRes = await getConversationList()
+    if (conversationRes.success && conversationRes.data) {
+      stats.value.chatCount = conversationRes.data.length
     }
   } catch (error) {
     console.error('加载数据失败:', error)
