@@ -1,0 +1,3996 @@
+# SmartPaperAI API 文档
+
+
+**简介**:SmartPaperAI API 文档
+
+
+**HOST**:http://2c646963.r6.cpolar.top
+
+
+**联系人**:席崇援
+
+
+**Version**:0.0.1-SNAPSHOT
+
+
+**接口路径**:/v3/api-docs/default
+
+
+[TOC]
+
+
+
+
+
+
+# 教学设计管理
+
+
+## 获取教学设计列表
+
+
+**接口地址**:`/api/teaching-plans`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取当前用户的所有教学设计</p>
+
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListTeachingPlanListVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|TeachingPlanListVO|
+|&emsp;&emsp;id|教案ID|integer(int64)||
+|&emsp;&emsp;title|课题名称|string||
+|&emsp;&emsp;grade|学段|string||
+|&emsp;&emsp;subject|学科|string||
+|&emsp;&emsp;createTime|创建时间|string(date-time)||
+|&emsp;&emsp;updateTime|更新时间|string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"id": 0,
+			"title": "",
+			"grade": "",
+			"subject": "",
+			"createTime": "",
+			"updateTime": ""
+		}
+	]
+}
+```
+
+
+## 保存教学设计
+
+
+**接口地址**:`/api/teaching-plans`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>保存AI生成的教学设计</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "title": "",
+  "grade": "",
+  "subject": "",
+  "duration": "",
+  "objectives": {
+    "knowledge": [],
+    "skills": [],
+    "values": []
+  },
+  "keyPoints": [],
+  "difficulties": [],
+  "teachingSteps": [
+    {
+      "step": 0,
+      "name": "",
+      "duration": "",
+      "content": "",
+      "activities": []
+    }
+  ],
+  "assignments": [],
+  "resources": []
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|teachingPlanVO|教学设计内容|body|true|TeachingPlanVO|TeachingPlanVO|
+|&emsp;&emsp;title|||false|string||
+|&emsp;&emsp;grade|||false|string||
+|&emsp;&emsp;subject|||false|string||
+|&emsp;&emsp;duration|||false|string||
+|&emsp;&emsp;objectives|||false|TeachingObjectives|TeachingObjectives|
+|&emsp;&emsp;&emsp;&emsp;knowledge|||false|array|string|
+|&emsp;&emsp;&emsp;&emsp;skills|||false|array|string|
+|&emsp;&emsp;&emsp;&emsp;values|||false|array|string|
+|&emsp;&emsp;keyPoints|||false|array|string|
+|&emsp;&emsp;difficulties|||false|array|string|
+|&emsp;&emsp;teachingSteps|||false|array|TeachingStep|
+|&emsp;&emsp;&emsp;&emsp;step|||false|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;name|||false|string||
+|&emsp;&emsp;&emsp;&emsp;duration|||false|string||
+|&emsp;&emsp;&emsp;&emsp;content|||false|string||
+|&emsp;&emsp;&emsp;&emsp;activities|||false|array|string|
+|&emsp;&emsp;assignments|||false|array|string|
+|&emsp;&emsp;resources|||false|array|string|
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RLong|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|integer(int64)|integer(int64)|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": 0
+}
+```
+
+
+## 获取教学设计详情
+
+
+**接口地址**:`/api/teaching-plans/{planId}`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>查看教学设计的完整内容</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|planId|教案ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RTeachingPlanVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||TeachingPlanVO|TeachingPlanVO|
+|&emsp;&emsp;title||string||
+|&emsp;&emsp;grade||string||
+|&emsp;&emsp;subject||string||
+|&emsp;&emsp;duration||string||
+|&emsp;&emsp;objectives||TeachingObjectives|TeachingObjectives|
+|&emsp;&emsp;&emsp;&emsp;knowledge||array|string|
+|&emsp;&emsp;&emsp;&emsp;skills||array|string|
+|&emsp;&emsp;&emsp;&emsp;values||array|string|
+|&emsp;&emsp;keyPoints||array|string|
+|&emsp;&emsp;difficulties||array|string|
+|&emsp;&emsp;teachingSteps||array|TeachingStep|
+|&emsp;&emsp;&emsp;&emsp;step||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;name||string||
+|&emsp;&emsp;&emsp;&emsp;duration||string||
+|&emsp;&emsp;&emsp;&emsp;content||string||
+|&emsp;&emsp;&emsp;&emsp;activities||array|string|
+|&emsp;&emsp;assignments||array|string|
+|&emsp;&emsp;resources||array|string|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"title": "",
+		"grade": "",
+		"subject": "",
+		"duration": "",
+		"objectives": {
+			"knowledge": [],
+			"skills": [],
+			"values": []
+		},
+		"keyPoints": [],
+		"difficulties": [],
+		"teachingSteps": [
+			{
+				"step": 0,
+				"name": "",
+				"duration": "",
+				"content": "",
+				"activities": []
+			}
+		],
+		"assignments": [],
+		"resources": []
+	}
+}
+```
+
+
+## 删除教学设计
+
+
+**接口地址**:`/api/teaching-plans/{planId}`
+
+
+**请求方式**:`DELETE`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>删除指定的教学设计</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|planId|教案ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 生成教学设计
+
+
+**接口地址**:`/api/teaching-plans/generate`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>结合主题/年级/学科与可选文档，使用AI生成结构化教学方案（目标/步骤/作业/资源），附引用片段</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|topic|课题|query|true|string||
+|grade|学段|query|true|string||
+|subject|学科|query|true|string||
+|documentIds|参考文档ID列表|query|false|array|integer|
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagAnswerVOTeachingPlanVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagAnswerVOTeachingPlanVO|RagAnswerVOTeachingPlanVO|
+|&emsp;&emsp;answer||TeachingPlanVO|TeachingPlanVO|
+|&emsp;&emsp;&emsp;&emsp;title||string||
+|&emsp;&emsp;&emsp;&emsp;grade||string||
+|&emsp;&emsp;&emsp;&emsp;subject||string||
+|&emsp;&emsp;&emsp;&emsp;duration||string||
+|&emsp;&emsp;&emsp;&emsp;objectives||TeachingObjectives|TeachingObjectives|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;knowledge||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;skills||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;values||array|string|
+|&emsp;&emsp;&emsp;&emsp;keyPoints||array|string|
+|&emsp;&emsp;&emsp;&emsp;difficulties||array|string|
+|&emsp;&emsp;&emsp;&emsp;teachingSteps||array|TeachingStep|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;step||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;name||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;duration||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;content||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;activities||array|string|
+|&emsp;&emsp;&emsp;&emsp;assignments||array|string|
+|&emsp;&emsp;&emsp;&emsp;resources||array|string|
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;metadata|扩展元数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": {
+			"title": "",
+			"grade": "",
+			"subject": "",
+			"duration": "",
+			"objectives": {
+				"knowledge": [],
+				"skills": [],
+				"values": []
+			},
+			"keyPoints": [],
+			"difficulties": [],
+			"teachingSteps": [
+				{
+					"step": 0,
+					"name": "",
+					"duration": "",
+					"content": "",
+					"activities": []
+				}
+			],
+			"assignments": [],
+			"resources": []
+		},
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"metadata": {}
+	}
+}
+```
+
+
+# 认证管理
+
+
+## 获取验证码
+
+
+**接口地址**:`/auth/captcha`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取图形验证码</p>
+
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RCaptchaVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||CaptchaVO|CaptchaVO|
+|&emsp;&emsp;captchaKey|验证码key|string||
+|&emsp;&emsp;captchaImage|验证码图片(Base64)|string||
+|&emsp;&emsp;expireTime|过期时间(秒)|integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"captchaKey": "",
+		"captchaImage": "",
+		"expireTime": 0
+	}
+}
+```
+
+
+## 检查登录状态
+
+
+**接口地址**:`/auth/check`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>检查用户当前是否处于登录状态</p>
+
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RBoolean|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|boolean||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": true
+}
+```
+
+
+## 获取当前用户ID
+
+
+**接口地址**:`/auth/current-user-id`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取当前登录用户的ID</p>
+
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RLong|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|integer(int64)|integer(int64)|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": 0
+}
+```
+
+
+## 用户登录
+
+
+**接口地址**:`/auth/login`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>用户通过用户名和密码进行登录</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "username": "admin",
+  "password": "123456",
+  "captcha": "abcd",
+  "captchaKey": ""
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|loginRequest|登录请求|body|true|LoginRequest|LoginRequest|
+|&emsp;&emsp;username|用户名||true|string||
+|&emsp;&emsp;password|密码||true|string||
+|&emsp;&emsp;captcha|验证码||false|string||
+|&emsp;&emsp;captchaKey|验证码key||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RLoginVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||LoginVO|LoginVO|
+|&emsp;&emsp;token|访问令牌|string||
+|&emsp;&emsp;tokenName|Token名称|string||
+|&emsp;&emsp;tokenPrefix|Token前缀|string||
+|&emsp;&emsp;tokenTimeout|Token有效期(秒)|integer(int64)||
+|&emsp;&emsp;userInfo||UserInfoVO|UserInfoVO|
+|&emsp;&emsp;&emsp;&emsp;userId|用户ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;username|用户名|string||
+|&emsp;&emsp;&emsp;&emsp;nickname|昵称|string||
+|&emsp;&emsp;&emsp;&emsp;email|邮箱|string||
+|&emsp;&emsp;&emsp;&emsp;avatar|头像|string||
+|&emsp;&emsp;&emsp;&emsp;gender|性别(0-未知,1-男,2-女)|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;phone|手机号|string||
+|&emsp;&emsp;&emsp;&emsp;lastLoginTime|最后登录时间|string(date-time)||
+|&emsp;&emsp;&emsp;&emsp;lastLoginIp|最后登录IP|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"token": "",
+		"tokenName": "",
+		"tokenPrefix": "",
+		"tokenTimeout": 0,
+		"userInfo": {
+			"userId": 0,
+			"username": "",
+			"nickname": "",
+			"email": "",
+			"avatar": "",
+			"gender": 0,
+			"phone": "",
+			"lastLoginTime": "",
+			"lastLoginIp": ""
+		}
+	}
+}
+```
+
+
+## 退出登录
+
+
+**接口地址**:`/auth/logout`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>用户退出当前登录状态</p>
+
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 用户注册
+
+
+**接口地址**:`/auth/register`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>新用户注册账号</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "username": "testuser",
+  "password": "123456",
+  "confirmPassword": "123456",
+  "email": "user@example.com",
+  "captcha": "abcd",
+  "captchaKey": ""
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|registerRequest|注册请求|body|true|RegisterRequest|RegisterRequest|
+|&emsp;&emsp;username|用户名||true|string||
+|&emsp;&emsp;password|密码||true|string||
+|&emsp;&emsp;confirmPassword|确认密码||true|string||
+|&emsp;&emsp;email|邮箱||false|string||
+|&emsp;&emsp;captcha|验证码||false|string||
+|&emsp;&emsp;captchaKey|验证码key||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+# 文档管理
+
+
+## 获取文档详情
+
+
+**接口地址**:`/api/documents/{documentId}`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取指定文档的详细信息（需拥有者权限且未被删除）</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RDocumentVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||DocumentVO|DocumentVO|
+|&emsp;&emsp;id||integer(int64)||
+|&emsp;&emsp;title||string||
+|&emsp;&emsp;type||string||
+|&emsp;&emsp;fileSize||integer(int64)||
+|&emsp;&emsp;status||string||
+|&emsp;&emsp;createTime||string(date-time)||
+|&emsp;&emsp;updateTime||string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"id": 0,
+		"title": "",
+		"type": "",
+		"fileSize": 0,
+		"status": "",
+		"createTime": "",
+		"updateTime": ""
+	}
+}
+```
+
+
+## 删除文档
+
+
+**接口地址**:`/api/documents/{documentId}`
+
+
+**请求方式**:`DELETE`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>逻辑删除文档并清除其向量及映射数据</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 导出引用格式
+
+
+**接口地址**:`/api/documents/{documentId}/citation`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>生成指定引用格式(BibTeX/APA/MLA/GB/T7714)；若缺字段使用空串占位</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|论文文档ID|path|true|integer(int64)||
+|format|引用格式（bibtex/apa/mla/gbt7714）|query|false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RCitationFormatVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||CitationFormatVO|CitationFormatVO|
+|&emsp;&emsp;format|引用格式类型(apa/bibtex/mla/gbt7714)|string||
+|&emsp;&emsp;citation|引用内容|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"format": "",
+		"citation": ""
+	}
+}
+```
+
+
+## 获取文档内容
+
+
+**接口地址**:`/api/documents/{documentId}/content`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取文档解析后的纯文本内容</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RString|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": ""
+}
+```
+
+
+## 提取论文元数据
+
+
+**接口地址**:`/api/documents/{documentId}/metadata`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>从论文内容抽取题录信息（title/authors/year/doi/keywords 等），优先使用 GROBID，失败时降级到 LLM 提取</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|论文文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RPaperMetadataVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||PaperMetadataVO|PaperMetadataVO|
+|&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;title|论文标题|string||
+|&emsp;&emsp;authors|作者列表|array|string|
+|&emsp;&emsp;year|发表年份|string||
+|&emsp;&emsp;publication|期刊/会议名称|string||
+|&emsp;&emsp;volume|卷号|string||
+|&emsp;&emsp;issue|期号|string||
+|&emsp;&emsp;pages|页码|string||
+|&emsp;&emsp;doi|DOI|string||
+|&emsp;&emsp;keywords|关键词|array|string|
+|&emsp;&emsp;abstractText|摘要|string||
+|&emsp;&emsp;citationCount|引用数|integer(int32)||
+|&emsp;&emsp;field|领域/学科|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"documentId": 0,
+		"title": "",
+		"authors": [],
+		"year": "",
+		"publication": "",
+		"volume": "",
+		"issue": "",
+		"pages": "",
+		"doi": "",
+		"keywords": [],
+		"abstractText": "",
+		"citationCount": 0,
+		"field": ""
+	}
+}
+```
+
+
+## 文档预览
+
+
+**接口地址**:`/api/documents/{documentId}/preview`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取文档原始文件以支持在线预览或下载</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+|download|是否下载|query|false|boolean||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RResponseEntityByteArrayResource|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||string(binary)|string(binary)|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": ""
+}
+```
+
+
+## 论文总结
+
+
+**接口地址**:`/api/documents/{documentId}/summarize`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>生成结构化 JSON（背景/方法/结果/创新点/局限），并附引用片段；若字段缺失会填充空字符串或空数组</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|论文文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagAnswerVOPaperSummaryVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagAnswerVOPaperSummaryVO|RagAnswerVOPaperSummaryVO|
+|&emsp;&emsp;answer||PaperSummaryVO|PaperSummaryVO|
+|&emsp;&emsp;&emsp;&emsp;title||string||
+|&emsp;&emsp;&emsp;&emsp;authors||array|string|
+|&emsp;&emsp;&emsp;&emsp;publicationYear||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;summary||SummaryContent|SummaryContent|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;background||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;methodology||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;results||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;innovations||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;limitations||string||
+|&emsp;&emsp;&emsp;&emsp;keywords||array|string|
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;metadata|扩展元数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": {
+			"title": "",
+			"authors": [],
+			"publicationYear": 0,
+			"summary": {
+				"background": "",
+				"methodology": "",
+				"results": "",
+				"innovations": [],
+				"limitations": ""
+			},
+			"keywords": []
+		},
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"metadata": {}
+	}
+}
+```
+
+
+## 获取文档任务状态
+
+
+**接口地址**:`/api/documents/{documentId}/tasks`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>查看文档处理任务的状态和进度（按创建时间倒序）</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListDocumentTaskVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|DocumentTaskVO|
+|&emsp;&emsp;id|任务ID|integer(int64)||
+|&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;taskType|任务类型|string||
+|&emsp;&emsp;status|状态|string||
+|&emsp;&emsp;retryCount|重试次数|integer(int32)||
+|&emsp;&emsp;maxRetries|最大重试次数|integer(int32)||
+|&emsp;&emsp;errorMessage|错误信息|string||
+|&emsp;&emsp;progress|进度(0-100)|integer(int32)||
+|&emsp;&emsp;startTime|开始时间|string(date-time)||
+|&emsp;&emsp;endTime|结束时间|string(date-time)||
+|&emsp;&emsp;duration|耗时(秒)|integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"id": 0,
+			"documentId": 0,
+			"taskType": "",
+			"status": "",
+			"retryCount": 0,
+			"maxRetries": 0,
+			"errorMessage": "",
+			"progress": 0,
+			"startTime": "",
+			"endTime": "",
+			"duration": 0
+		}
+	]
+}
+```
+
+
+## 批量导出引用
+
+
+**接口地址**:`/api/documents/citations/batch`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>批量导出多篇论文引用格式（串行处理确保数据库连接安全），返回包含文档标题和引用的列表</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+[]
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|integers|integer|body|true|array||
+|format|引用格式|query|false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RBatchCitationVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||BatchCitationVO|BatchCitationVO|
+|&emsp;&emsp;format|引用格式类型|string||
+|&emsp;&emsp;count|引用数量|integer(int32)||
+|&emsp;&emsp;citations|引用列表|array|CitationItem|
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;citation|引用内容|string||
+|&emsp;&emsp;&emsp;&emsp;error|错误信息|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"format": "",
+		"count": 0,
+		"citations": [
+			{
+				"title": "",
+				"citation": "",
+				"error": ""
+			}
+		]
+	}
+}
+```
+
+
+## 论文对比
+
+
+**接口地址**:`/api/documents/compare`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>多篇论文多维度对比（默认维度：方法/数据集/创新点/结论/实验结果），输出结构化矩阵 + 引用片段</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "documentIds": [],
+  "dimensions": []
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|paperComparisonDTO|论文对比请求|body|true|PaperComparisonDTO|PaperComparisonDTO|
+|&emsp;&emsp;documentIds|文档ID列表||true|array|integer(int64)|
+|&emsp;&emsp;dimensions|对比维度（可选，默认：研究方法、数据集、创新点、结论）||false|array|string|
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagAnswerVOPaperComparisonVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagAnswerVOPaperComparisonVO|RagAnswerVOPaperComparisonVO|
+|&emsp;&emsp;answer||PaperComparisonVO|PaperComparisonVO|
+|&emsp;&emsp;&emsp;&emsp;dimensions|对比维度列表|array|ComparisonDimension|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;id|维度ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;name|维度名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;description|维度描述|string||
+|&emsp;&emsp;&emsp;&emsp;papers|论文列表|array|PaperInComparison|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;title|论文标题|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;authors|作者|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;year|年份|string||
+|&emsp;&emsp;&emsp;&emsp;matrix|对比矩阵(dimension -> paper -> value)|array|ComparisonRow|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;dimensionId|维度ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;dimensionName|维度名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;values|各论文在该维度的值|array|string|
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;metadata|扩展元数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": {
+			"dimensions": [
+				{
+					"id": "",
+					"name": "",
+					"description": ""
+				}
+			],
+			"papers": [
+				{
+					"documentId": 0,
+					"title": "",
+					"authors": "",
+					"year": ""
+				}
+			],
+			"matrix": [
+				{
+					"dimensionId": "",
+					"dimensionName": "",
+					"values": []
+				}
+			]
+		},
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"metadata": {}
+	}
+}
+```
+
+
+## 创新点聚合
+
+
+**接口地址**:`/api/documents/innovations/aggregate`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>抽取多篇论文创新点并进行主题聚类，输出创新主题集合</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+[]
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|integers|integer|body|true|array||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListInnovationClusterVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|InnovationClusterVO|
+|&emsp;&emsp;topic|主题名称|string||
+|&emsp;&emsp;innovations|创新点列表|array|InnovationPoint|
+|&emsp;&emsp;&emsp;&emsp;description|创新点描述|string||
+|&emsp;&emsp;&emsp;&emsp;paperTitle|论文标题|string||
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;noveltyScore|新颖性分数|number(double)||
+|&emsp;&emsp;importance|重要性分数|number(double)||
+|&emsp;&emsp;paperCount|相关论文数量|integer(int32)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"topic": "",
+			"innovations": [
+				{
+					"description": "",
+					"paperTitle": "",
+					"documentId": 0,
+					"noveltyScore": 0
+				}
+			],
+			"importance": 0,
+			"paperCount": 0
+		}
+	]
+}
+```
+
+
+## 分页查询文档列表
+
+
+**接口地址**:`/api/documents/list`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>支持按标题、类型、状态、知识库等条件查询，支持分页和排序</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|queryDTO|文档查询参数|query|true|DocumentQueryDTO|DocumentQueryDTO|
+|&emsp;&emsp;current|当前页码||false|integer(int32)||
+|&emsp;&emsp;size|每页大小||false|integer(int32)||
+|&emsp;&emsp;sortField|排序字段||false|string||
+|&emsp;&emsp;sortOrder|排序方式||false|string||
+|&emsp;&emsp;title|文档标题||false|string||
+|&emsp;&emsp;type|文档类型||false|string||
+|&emsp;&emsp;status|处理状态||false|string||
+|&emsp;&emsp;kbId|知识库ID||false|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RIPageDocumentVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||IPageDocumentVO|IPageDocumentVO|
+|&emsp;&emsp;size||integer(int64)||
+|&emsp;&emsp;pages||integer(int64)||
+|&emsp;&emsp;current||integer(int64)||
+|&emsp;&emsp;records||array|DocumentVO|
+|&emsp;&emsp;&emsp;&emsp;id||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title||string||
+|&emsp;&emsp;&emsp;&emsp;type||string||
+|&emsp;&emsp;&emsp;&emsp;fileSize||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;status||string||
+|&emsp;&emsp;&emsp;&emsp;createTime||string(date-time)||
+|&emsp;&emsp;&emsp;&emsp;updateTime||string(date-time)||
+|&emsp;&emsp;total||integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"size": 0,
+		"pages": 0,
+		"current": 0,
+		"records": [
+			{
+				"id": 0,
+				"title": "",
+				"type": "",
+				"fileSize": 0,
+				"status": "",
+				"createTime": "",
+				"updateTime": ""
+			}
+		],
+		"total": 0
+	}
+}
+```
+
+
+## 文献综述生成
+
+
+**接口地址**:`/api/documents/literature-review`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>综合分析多篇论文，生成结构化综述（研究现状/方法对比/发展趋势/研究空白/未来方向），附引用片段</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+[]
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|integers|integer|body|true|array||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagAnswerVOLiteratureReviewVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagAnswerVOLiteratureReviewVO|RagAnswerVOLiteratureReviewVO|
+|&emsp;&emsp;answer||LiteratureReviewVO|LiteratureReviewVO|
+|&emsp;&emsp;&emsp;&emsp;topic||string||
+|&emsp;&emsp;&emsp;&emsp;paperCount||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;papers||array|PaperInfo|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentId||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;title||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;authors||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;year||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;researchStatus||ResearchStatus|ResearchStatus|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;overview||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;mainThemes||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;representativeWorks||array|RepresentativeWork|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentId||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;title||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;contribution||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;impactScore||number(double)||
+|&emsp;&emsp;&emsp;&emsp;methodologyComparison||MethodologyComparison|MethodologyComparison|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;summary||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;categories||array|MethodCategory|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;categoryName||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentIds||array|integer|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;prosAndCons||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;evolution||string||
+|&emsp;&emsp;&emsp;&emsp;trendAnalysis||TrendAnalysis|TrendAnalysis|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;timeline||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;hotTopics||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;emergingTechnologies||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;focusShift||string||
+|&emsp;&emsp;&emsp;&emsp;researchGaps||ResearchGaps|ResearchGaps|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;unsolvedProblems||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;methodologicalLimitations||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;dataGaps||array|string|
+|&emsp;&emsp;&emsp;&emsp;futureDirections||FutureDirections|FutureDirections|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;directions||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;interdisciplinaryOpportunities||array|string|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;applicationProspects||string||
+|&emsp;&emsp;&emsp;&emsp;keywordCloud||array|KeywordFrequency|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;keyword||string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;frequency||integer(int32)||
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;metadata|扩展元数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": {
+			"topic": "",
+			"paperCount": 0,
+			"papers": [
+				{
+					"documentId": 0,
+					"title": "",
+					"authors": [],
+					"year": 0
+				}
+			],
+			"researchStatus": {
+				"overview": "",
+				"mainThemes": [],
+				"representativeWorks": [
+					{
+						"documentId": 0,
+						"title": "",
+						"contribution": "",
+						"impactScore": 0
+					}
+				]
+			},
+			"methodologyComparison": {
+				"summary": "",
+				"categories": [
+					{
+						"categoryName": "",
+						"documentIds": [],
+						"prosAndCons": ""
+					}
+				],
+				"evolution": ""
+			},
+			"trendAnalysis": {
+				"timeline": "",
+				"hotTopics": [],
+				"emergingTechnologies": [],
+				"focusShift": ""
+			},
+			"researchGaps": {
+				"unsolvedProblems": [],
+				"methodologicalLimitations": [],
+				"dataGaps": []
+			},
+			"futureDirections": {
+				"directions": [],
+				"interdisciplinaryOpportunities": [],
+				"applicationProspects": ""
+			},
+			"keywordCloud": [
+				{
+					"keyword": "",
+					"frequency": 0
+				}
+			]
+		},
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"metadata": {}
+	}
+}
+```
+
+
+## 搜索文档
+
+
+**接口地址**:`/api/documents/search`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>智能搜索：自动结合语义理解和关键词匹配，返回最相关的文档</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|query|搜索关键词或问题|query|true|string||
+|topK|返回结果数量|query|false|integer(int32)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListDocumentSearchResultVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|DocumentSearchResultVO|
+|&emsp;&emsp;documentId||integer(int64)||
+|&emsp;&emsp;title||string||
+|&emsp;&emsp;type||string||
+|&emsp;&emsp;fileSize||integer(int64)||
+|&emsp;&emsp;snippet||string||
+|&emsp;&emsp;keywords||array|string|
+|&emsp;&emsp;score||number(double)||
+|&emsp;&emsp;source||string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"documentId": 0,
+			"title": "",
+			"type": "",
+			"fileSize": 0,
+			"snippet": "",
+			"keywords": [],
+			"score": 0,
+			"source": ""
+		}
+	]
+}
+```
+
+
+## 获取单个任务状态
+
+
+**接口地址**:`/api/documents/tasks/{taskId}`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>根据 taskId 查询任务状态与进度</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|taskId|任务ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RDocumentTaskVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||DocumentTaskVO|DocumentTaskVO|
+|&emsp;&emsp;id|任务ID|integer(int64)||
+|&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;taskType|任务类型|string||
+|&emsp;&emsp;status|状态|string||
+|&emsp;&emsp;retryCount|重试次数|integer(int32)||
+|&emsp;&emsp;maxRetries|最大重试次数|integer(int32)||
+|&emsp;&emsp;errorMessage|错误信息|string||
+|&emsp;&emsp;progress|进度(0-100)|integer(int32)||
+|&emsp;&emsp;startTime|开始时间|string(date-time)||
+|&emsp;&emsp;endTime|结束时间|string(date-time)||
+|&emsp;&emsp;duration|耗时(秒)|integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"id": 0,
+		"documentId": 0,
+		"taskType": "",
+		"status": "",
+		"retryCount": 0,
+		"maxRetries": 0,
+		"errorMessage": "",
+		"progress": 0,
+		"startTime": "",
+		"endTime": "",
+		"duration": 0
+	}
+}
+```
+
+
+## 重试文档处理
+
+
+**接口地址**:`/api/documents/tasks/{taskId}/retry`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>重新处理失败的文档（自动清理旧数据并重新解析、向量化）</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|taskId|任务ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RTaskRetryVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||TaskRetryVO|TaskRetryVO|
+|&emsp;&emsp;message|提示信息|string||
+|&emsp;&emsp;taskId|任务ID|integer(int64)||
+|&emsp;&emsp;success|是否成功|boolean||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"message": "",
+		"taskId": 0,
+		"success": true
+	}
+}
+```
+
+
+## 上传文档
+
+
+**接口地址**:`/api/documents/upload`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`multipart/form-data`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>支持 PDF、Word、Markdown、TXT 格式；支持单个或批量上传</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|file|文件（单个或多个）|query|true|array|file|
+|type|文档类型|query|false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RObject|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+# 知识库管理
+
+
+## 创建知识库
+
+
+**接口地址**:`/api/kb`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "name": "",
+  "description": ""
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|createKBDTO|创建知识库请求|body|true|CreateKBDTO|CreateKBDTO|
+|&emsp;&emsp;name|知识库名称||true|string||
+|&emsp;&emsp;description|描述||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RLong|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|integer(int64)|integer(int64)|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": 0
+}
+```
+
+
+## 获取知识库详情
+
+
+**接口地址**:`/api/kb/{kbId}`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|kbId|知识库ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RKnowledgeBaseDO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||KnowledgeBaseDO|KnowledgeBaseDO|
+|&emsp;&emsp;id||integer(int64)||
+|&emsp;&emsp;name||string||
+|&emsp;&emsp;description||string||
+|&emsp;&emsp;userId||integer(int64)||
+|&emsp;&emsp;documentCount||integer(int32)||
+|&emsp;&emsp;isDeleted||integer(int32)||
+|&emsp;&emsp;createTime||string(date-time)||
+|&emsp;&emsp;updateTime||string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"id": 0,
+		"name": "",
+		"description": "",
+		"userId": 0,
+		"documentCount": 0,
+		"isDeleted": 0,
+		"createTime": "",
+		"updateTime": ""
+	}
+}
+```
+
+
+## 更新知识库
+
+
+**接口地址**:`/api/kb/{kbId}`
+
+
+**请求方式**:`PUT`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "name": "",
+  "description": ""
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|kbId|知识库ID|path|true|integer(int64)||
+|createKBDTO|创建知识库请求|body|true|CreateKBDTO|CreateKBDTO|
+|&emsp;&emsp;name|知识库名称||true|string||
+|&emsp;&emsp;description|描述||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 删除知识库
+
+
+**接口地址**:`/api/kb/{kbId}`
+
+
+**请求方式**:`DELETE`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|kbId|知识库ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 批量将文档归档到知识库
+
+
+**接口地址**:`/api/kb/{kbId}/documents/batch`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求示例**:
+
+
+```javascript
+[]
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|kbId|知识库ID|path|true|integer(int64)||
+|integers|integer|body|true|array||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 为文档添加标签
+
+
+**接口地址**:`/api/kb/documents/{documentId}/tags`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求示例**:
+
+
+```javascript
+[]
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|path|true|integer(int64)||
+|integers|integer|body|true|array||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 分页查询我的知识库列表
+
+
+**接口地址**:`/api/kb/my`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>支持按名称、描述搜索，支持分页和排序</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|queryDTO|知识库查询参数|query|true|KnowledgeBaseQueryDTO|KnowledgeBaseQueryDTO|
+|&emsp;&emsp;current|当前页码||false|integer(int32)||
+|&emsp;&emsp;size|每页大小||false|integer(int32)||
+|&emsp;&emsp;sortField|排序字段||false|string||
+|&emsp;&emsp;sortOrder|排序方式||false|string||
+|&emsp;&emsp;name|知识库名称||false|string||
+|&emsp;&emsp;description|描述关键词||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RIPageKnowledgeBaseDO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||IPageKnowledgeBaseDO|IPageKnowledgeBaseDO|
+|&emsp;&emsp;size||integer(int64)||
+|&emsp;&emsp;pages||integer(int64)||
+|&emsp;&emsp;current||integer(int64)||
+|&emsp;&emsp;records||array|KnowledgeBaseDO|
+|&emsp;&emsp;&emsp;&emsp;id||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;name||string||
+|&emsp;&emsp;&emsp;&emsp;description||string||
+|&emsp;&emsp;&emsp;&emsp;userId||integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;documentCount||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;isDeleted||integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;createTime||string(date-time)||
+|&emsp;&emsp;&emsp;&emsp;updateTime||string(date-time)||
+|&emsp;&emsp;total||integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"size": 0,
+		"pages": 0,
+		"current": 0,
+		"records": [
+			{
+				"id": 0,
+				"name": "",
+				"description": "",
+				"userId": 0,
+				"documentCount": 0,
+				"isDeleted": 0,
+				"createTime": "",
+				"updateTime": ""
+			}
+		],
+		"total": 0
+	}
+}
+```
+
+
+## 创建标签
+
+
+**接口地址**:`/api/kb/tags`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|name|标签名称|query|true|string||
+|color|标签颜色|query|false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RLong|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|integer(int64)|integer(int64)|
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": 0
+}
+```
+
+
+## 根据标签获取文档列表
+
+
+**接口地址**:`/api/kb/tags/{tagId}/documents`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|tagId|标签ID|path|true|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListLong|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": []
+}
+```
+
+
+## 分页查询我的标签列表
+
+
+**接口地址**:`/api/kb/tags/my`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>支持按名称、颜色搜索，支持分页和排序</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|queryDTO|标签查询参数|query|true|TagQueryDTO|TagQueryDTO|
+|&emsp;&emsp;current|当前页码||false|integer(int32)||
+|&emsp;&emsp;size|每页大小||false|integer(int32)||
+|&emsp;&emsp;sortField|排序字段||false|string||
+|&emsp;&emsp;sortOrder|排序方式||false|string||
+|&emsp;&emsp;name|标签名称||false|string||
+|&emsp;&emsp;color|标签颜色||false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RIPageTagVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||IPageTagVO|IPageTagVO|
+|&emsp;&emsp;size||integer(int64)||
+|&emsp;&emsp;pages||integer(int64)||
+|&emsp;&emsp;current||integer(int64)||
+|&emsp;&emsp;records||array|TagVO|
+|&emsp;&emsp;&emsp;&emsp;id|标签ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;name|标签名称|string||
+|&emsp;&emsp;&emsp;&emsp;color|颜色|string||
+|&emsp;&emsp;&emsp;&emsp;usageCount|使用次数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;createTime|创建时间|string(date-time)||
+|&emsp;&emsp;total||integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"size": 0,
+		"pages": 0,
+		"current": 0,
+		"records": [
+			{
+				"id": 0,
+				"name": "",
+				"color": "",
+				"usageCount": 0,
+				"createTime": ""
+			}
+		],
+		"total": 0
+	}
+}
+```
+
+
+# DeepSeek AI 聊天接口
+
+
+## 发送聊天消息
+
+
+**接口地址**:`/ai/chat`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>支持上下文对话,如果不传conversationId则创建新会话</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "conversationId": "",
+  "message": "",
+  "enableRag": true,
+  "ragTopK": 0,
+  "customTemperature": 0,
+  "customMaxTokens": 0,
+  "customSimilarityThreshold": 0,
+  "enableMemory": true
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|chatRequestDTO|聊天请求|body|true|ChatRequestDTO|ChatRequestDTO|
+|&emsp;&emsp;conversationId|会话ID(可选,不传则创建新会话)||false|string||
+|&emsp;&emsp;message|用户消息||true|string||
+|&emsp;&emsp;enableRag|是否启用RAG(检索增强生成),默认false||false|boolean||
+|&emsp;&emsp;ragTopK|RAG检索文档数量,默认999||false|integer(int32)||
+|&emsp;&emsp;customTemperature|自定义温度参数(0.0-2.0),覆盖默认配置||false|number(double)||
+|&emsp;&emsp;customMaxTokens|自定义最大Token数,覆盖默认配置||false|integer(int32)||
+|&emsp;&emsp;customSimilarityThreshold|自定义相似度阈值(RAG时使用),覆盖默认配置||false|number(double)||
+|&emsp;&emsp;enableMemory|是否启用对话记忆,默认true||false|boolean||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RChatResponseVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||ChatResponseVO|ChatResponseVO|
+|&emsp;&emsp;conversationId|会话ID|string||
+|&emsp;&emsp;userMessage|用户消息|string||
+|&emsp;&emsp;aiResponse|AI 回复|string||
+|&emsp;&emsp;timestamp|响应时间|string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"conversationId": "",
+		"userMessage": "",
+		"aiResponse": "",
+		"timestamp": ""
+	}
+}
+```
+
+
+## 流式发送聊天消息
+
+
+**接口地址**:`/ai/chat/stream`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded,application/json`
+
+
+**响应数据类型**:`text/event-stream`
+
+
+**接口描述**:<p>使用SSE流式传输AI回复,逐字显示</p>
+
+
+
+**请求示例**:
+
+
+```javascript
+{
+  "conversationId": "",
+  "message": "",
+  "enableRag": true,
+  "ragTopK": 0,
+  "customTemperature": 0,
+  "customMaxTokens": 0,
+  "customSimilarityThreshold": 0,
+  "enableMemory": true
+}
+```
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|chatRequestDTO|聊天请求|body|true|ChatRequestDTO|ChatRequestDTO|
+|&emsp;&emsp;conversationId|会话ID(可选,不传则创建新会话)||false|string||
+|&emsp;&emsp;message|用户消息||true|string||
+|&emsp;&emsp;enableRag|是否启用RAG(检索增强生成),默认false||false|boolean||
+|&emsp;&emsp;ragTopK|RAG检索文档数量,默认999||false|integer(int32)||
+|&emsp;&emsp;customTemperature|自定义温度参数(0.0-2.0),覆盖默认配置||false|number(double)||
+|&emsp;&emsp;customMaxTokens|自定义最大Token数,覆盖默认配置||false|integer(int32)||
+|&emsp;&emsp;customSimilarityThreshold|自定义相似度阈值(RAG时使用),覆盖默认配置||false|number(double)||
+|&emsp;&emsp;enableMemory|是否启用对话记忆,默认true||false|boolean||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RSseEmitter|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||SseEmitter|SseEmitter|
+|&emsp;&emsp;timeout||integer(int64)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"timeout": 0
+	}
+}
+```
+
+
+## 获取会话列表
+
+
+**接口地址**:`/ai/sessions`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取用户的所有会话列表</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|userId|用户ID|query|false|integer(int64)||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListChatSessionVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|ChatSessionVO|
+|&emsp;&emsp;id|会话ID|integer(int64)||
+|&emsp;&emsp;conversationId|会话标识符|string||
+|&emsp;&emsp;title|会话标题|string||
+|&emsp;&emsp;createTime|创建时间|string(date-time)||
+|&emsp;&emsp;updateTime|更新时间|string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"id": 0,
+			"conversationId": "",
+			"title": "",
+			"createTime": "",
+			"updateTime": ""
+		}
+	]
+}
+```
+
+
+## 创建新会话
+
+
+**接口地址**:`/ai/sessions`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>创建一个新的聊天会话</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|userId|用户ID|query|false|integer(int64)||
+|title|会话标题|query|false|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RString|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|string||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": ""
+}
+```
+
+
+## 删除会话
+
+
+**接口地址**:`/ai/sessions/{conversationId}`
+
+
+**请求方式**:`DELETE`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>删除指定会话及其所有历史消息</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|conversationId|会话ID|path|true|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+## 获取会话历史
+
+
+**接口地址**:`/ai/sessions/{conversationId}/history`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>获取指定会话的所有历史消息</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|conversationId|会话ID|path|true|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RListChatMessageVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|array|ChatMessageVO|
+|&emsp;&emsp;id|消息ID|integer(int64)||
+|&emsp;&emsp;role|消息角色|string||
+|&emsp;&emsp;content|消息内容|string||
+|&emsp;&emsp;createTime|创建时间|string(date-time)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": [
+		{
+			"id": 0,
+			"role": "",
+			"content": "",
+			"createTime": ""
+		}
+	]
+}
+```
+
+
+## 清空会话历史
+
+
+**接口地址**:`/ai/sessions/{conversationId}/history`
+
+
+**请求方式**:`DELETE`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>清空指定会话的所有历史消息</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|conversationId|会话ID|path|true|string||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RVoid|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+# index-controller
+
+
+## index
+
+
+**接口地址**:`/`
+
+
+**请求方式**:`GET`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:
+
+
+**请求参数**:
+
+
+暂无
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RMapStringObject|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data|响应数据|object||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {}
+}
+```
+
+
+# RAG 对话
+
+
+## 文档问答
+
+
+**接口地址**:`/api/rag/document-chat`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>限定单一文档上下文进行问答，结果附带引用片段。可选分析文档关联关系</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|documentId|文档ID|query|true|integer(int64)||
+|query|用户问题|query|true|string||
+|useGraphEnhancement|是否启用知识图谱增强|query|false|boolean||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagChatResultVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagChatResultVO|RagChatResultVO|
+|&emsp;&emsp;answer|答案内容|string||
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;knowledgeGraph||KnowledgeGraphVO|KnowledgeGraphVO|
+|&emsp;&emsp;&emsp;&emsp;nodes|节点列表|array|GraphNode|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;id|节点ID（唯一标识）|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;type|节点类型|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label|节点显示名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;properties||NodeProperties|NodeProperties|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;name|名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;description|描述|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;category|类型/分类|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;field|所属领域|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;importance|重要度评分（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;frequency|频次|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentId|文档ID（仅Document类型）|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;title|文档标题（仅Document类型）|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;userId|用户ID（仅Document类型）|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;relationships|关系列表|array|GraphRelationship|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;id|关系ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;source|源节点ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;target|目标节点ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;type|关系类型|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label|关系显示标签|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;properties||RelationshipProperties|RelationshipProperties|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;weight|权重/强度（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;confidence|置信度（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;description|关系描述|string||
+|&emsp;&emsp;&emsp;&emsp;stats||GraphStats|GraphStats|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;totalNodes|节点总数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;totalRelationships|关系总数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;conceptNodes|概念节点数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentNodes|文档节点数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;authorNodes|作者节点数|integer(int32)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": "",
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"knowledgeGraph": {
+			"nodes": [
+				{
+					"id": "",
+					"type": "Concept, Document, Author",
+					"label": "",
+					"properties": {
+						"name": "",
+						"description": "",
+						"category": "",
+						"field": "",
+						"importance": 0,
+						"frequency": 0,
+						"documentId": 0,
+						"title": "",
+						"userId": 0
+					}
+				}
+			],
+			"relationships": [
+				{
+					"id": "",
+					"source": "",
+					"target": "",
+					"type": "CONTAINS, RELATED_TO, CITES, SIMILAR_TO",
+					"label": "",
+					"properties": {
+						"weight": 0,
+						"confidence": 0,
+						"description": ""
+					}
+				}
+			],
+			"stats": {
+				"totalNodes": 0,
+				"totalRelationships": 0,
+				"conceptNodes": 0,
+				"documentNodes": 0,
+				"authorNodes": 0
+			}
+		}
+	}
+}
+```
+
+
+## 知识库问答
+
+
+**接口地址**:`/api/rag/knowledge-base-chat`
+
+
+**请求方式**:`POST`
+
+
+**请求数据类型**:`application/x-www-form-urlencoded`
+
+
+**响应数据类型**:`*/*`
+
+
+**接口描述**:<p>在整个知识库的所有文档中进行检索问答，结果附带引用片段。可选启用知识图谱增强</p>
+
+
+
+**请求参数**:
+
+
+| 参数名称 | 参数说明 | 请求类型    | 是否必须 | 数据类型 | schema |
+| -------- | -------- | ----- | -------- | -------- | ------ |
+|knowledgeBaseId|知识库ID|query|true|integer(int64)||
+|query|用户问题|query|true|string||
+|useGraphEnhancement|是否启用知识图谱增强|query|false|boolean||
+
+
+**响应状态**:
+
+
+| 状态码 | 说明 | schema |
+| -------- | -------- | ----- | 
+|200|OK|RRagChatResultVO|
+
+
+**响应参数**:
+
+
+| 参数名称 | 参数说明 | 类型 | schema |
+| -------- | -------- | ----- |----- | 
+|code|状态码|string||
+|msg|状态信息|string||
+|success|是否成功|boolean||
+|timestamp|时间戳|integer(int64)|integer(int64)|
+|data||RagChatResultVO|RagChatResultVO|
+|&emsp;&emsp;answer|答案内容|string||
+|&emsp;&emsp;citations|引用来源列表|array|CitationVO|
+|&emsp;&emsp;&emsp;&emsp;documentId|文档ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;title|文档标题|string||
+|&emsp;&emsp;&emsp;&emsp;chunkId|文档块ID|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;chunkIndex|文档块索引|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;score|相似度得分|number(double)||
+|&emsp;&emsp;&emsp;&emsp;snippet|引用片段内容(原始文本)|string||
+|&emsp;&emsp;&emsp;&emsp;keywords|关键词列表(前端用于高亮,如使用 Mark.js)|array|string|
+|&emsp;&emsp;&emsp;&emsp;position|页码/位置信息|string||
+|&emsp;&emsp;&emsp;&emsp;metadata|元数据（JSON格式）|string||
+|&emsp;&emsp;knowledgeGraph||KnowledgeGraphVO|KnowledgeGraphVO|
+|&emsp;&emsp;&emsp;&emsp;nodes|节点列表|array|GraphNode|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;id|节点ID（唯一标识）|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;type|节点类型|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label|节点显示名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;properties||NodeProperties|NodeProperties|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;name|名称|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;description|描述|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;category|类型/分类|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;field|所属领域|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;importance|重要度评分（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;frequency|频次|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentId|文档ID（仅Document类型）|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;title|文档标题（仅Document类型）|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;userId|用户ID（仅Document类型）|integer(int64)||
+|&emsp;&emsp;&emsp;&emsp;relationships|关系列表|array|GraphRelationship|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;id|关系ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;source|源节点ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;target|目标节点ID|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;type|关系类型|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label|关系显示标签|string||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;properties||RelationshipProperties|RelationshipProperties|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;weight|权重/强度（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;confidence|置信度（0-1）|number(double)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;description|关系描述|string||
+|&emsp;&emsp;&emsp;&emsp;stats||GraphStats|GraphStats|
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;totalNodes|节点总数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;totalRelationships|关系总数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;conceptNodes|概念节点数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;documentNodes|文档节点数|integer(int32)||
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;authorNodes|作者节点数|integer(int32)||
+
+
+**响应示例**:
+```javascript
+{
+	"code": "0",
+	"msg": "ok",
+	"success": true,
+	"timestamp": 1691453288000,
+	"data": {
+		"answer": "",
+		"citations": [
+			{
+				"documentId": 0,
+				"title": "",
+				"chunkId": 0,
+				"chunkIndex": 0,
+				"score": 0,
+				"snippet": "",
+				"keywords": [],
+				"position": "",
+				"metadata": ""
+			}
+		],
+		"knowledgeGraph": {
+			"nodes": [
+				{
+					"id": "",
+					"type": "Concept, Document, Author",
+					"label": "",
+					"properties": {
+						"name": "",
+						"description": "",
+						"category": "",
+						"field": "",
+						"importance": 0,
+						"frequency": 0,
+						"documentId": 0,
+						"title": "",
+						"userId": 0
+					}
+				}
+			],
+			"relationships": [
+				{
+					"id": "",
+					"source": "",
+					"target": "",
+					"type": "CONTAINS, RELATED_TO, CITES, SIMILAR_TO",
+					"label": "",
+					"properties": {
+						"weight": 0,
+						"confidence": 0,
+						"description": ""
+					}
+				}
+			],
+			"stats": {
+				"totalNodes": 0,
+				"totalRelationships": 0,
+				"conceptNodes": 0,
+				"documentNodes": 0,
+				"authorNodes": 0
+			}
+		}
+	}
+}
+```
