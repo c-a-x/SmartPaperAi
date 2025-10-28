@@ -3,9 +3,7 @@
     <div class="login-card">
       <div class="login-header">
         <h1 class="logo">
-          <el-icon class="logo-icon">
-            <DocumentCopy />
-          </el-icon>
+          <img src="@/assets/logo.png" alt="Logo" class="logo-icon" />
           SmartPaperAI
         </h1>
         <p class="subtitle">智能论文问答系统</p>
@@ -328,7 +326,7 @@ onMounted(() => {
   margin-bottom: 32px;
 
   .logo {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
     color: #667eea;
     margin: 0;
@@ -338,7 +336,9 @@ onMounted(() => {
     gap: 12px;
 
     .logo-icon {
-      font-size: 36px;
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
     }
   }
 

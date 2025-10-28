@@ -5,9 +5,7 @@
       <div class="sidebar">
         <!-- Logo -->
         <div class="sidebar-logo">
-          <el-icon class="logo-icon">
-            <DocumentCopy />
-          </el-icon>
+          <img src="@/assets/logo.png" alt="Logo" class="logo-icon" />
           <transition name="fade">
             <span v-show="!isCollapse" class="logo-text">SmartPaperAI</span>
           </transition>
@@ -322,9 +320,37 @@ watch(
 }
 
 .layout-aside {
-  transition: width 0.3s;
-  background-color: #001529;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(180deg, #001529 0%, #000c17 100%);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15),
+    4px 0 20px rgba(24, 144, 255, 0.1);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg,
+        rgba(24, 144, 255, 0) 0%,
+        rgba(24, 144, 255, 0.3) 50%,
+        rgba(24, 144, 255, 0) 100%);
+    animation: edgeGlow 3s ease-in-out infinite;
+  }
+}
+
+@keyframes edgeGlow {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .sidebar {
@@ -343,14 +369,59 @@ watch(
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg,
+          rgba(24, 144, 255, 0) 0%,
+          rgba(24, 144, 255, 0.1) 50%,
+          rgba(24, 144, 255, 0) 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    &:hover {
+      background-color: rgba(24, 144, 255, 0.1);
+      box-shadow: 0 0 20px rgba(24, 144, 255, 0.3),
+        inset 0 0 10px rgba(24, 144, 255, 0.1);
+    }
+
+    &:hover::before {
+      transform: translateX(100%);
+    }
 
     .logo-icon {
-      font-size: 28px;
-      color: #1890ff;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      transition: all 0.4s ease;
+      filter: drop-shadow(0 2px 4px rgba(24, 144, 255, 0.3));
+    }
+
+    &:hover .logo-icon {
+      transform: rotate(360deg) scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(24, 144, 255, 0.8)) drop-shadow(0 0 25px rgba(24, 144, 255, 0.4));
     }
 
     .logo-text {
       white-space: nowrap;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    &:hover .logo-text {
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(24, 144, 255, 0.6),
+        0 0 20px rgba(24, 144, 255, 0.3);
     }
   }
 
@@ -361,20 +432,83 @@ watch(
 
     :deep(.el-menu-item) {
       color: rgba(255, 255, 255, 0.65);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      border-radius: 8px;
+      margin: 4px 8px;
 
       &:hover {
         color: #fff;
         background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 20px rgba(24, 144, 255, 0.4),
+          0 0 40px rgba(24, 144, 255, 0.2),
+          inset 0 0 10px rgba(24, 144, 255, 0.1);
+        transform: translateX(4px);
       }
 
       &.is-active {
         color: #fff;
         background-color: #1890ff !important;
+        box-shadow: 0 0 25px rgba(24, 144, 255, 0.6),
+          0 0 50px rgba(24, 144, 255, 0.3),
+          inset 0 0 15px rgba(255, 255, 255, 0.2);
+        animation: menuItemGlow 2s ease-in-out infinite;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: linear-gradient(180deg, #1890ff, #69c0ff);
+        border-radius: 0 2px 2px 0;
+        transition: height 0.3s ease;
+        box-shadow: 0 0 10px rgba(24, 144, 255, 0.8);
+      }
+
+      &:hover::before {
+        height: 60%;
+      }
+
+      &.is-active::before {
+        height: 80%;
+        box-shadow: 0 0 15px rgba(24, 144, 255, 1),
+          0 0 25px rgba(24, 144, 255, 0.6);
       }
     }
 
     :deep(.el-icon) {
       font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    :deep(.el-menu-item:hover .el-icon) {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 8px rgba(24, 144, 255, 0.8));
+    }
+
+    :deep(.el-menu-item.is-active .el-icon) {
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    }
+  }
+
+  /* 菜单项发光动画 */
+  @keyframes menuItemGlow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 25px rgba(24, 144, 255, 0.6),
+        0 0 50px rgba(24, 144, 255, 0.3),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    50% {
+      box-shadow: 0 0 30px rgba(24, 144, 255, 0.8),
+        0 0 60px rgba(24, 144, 255, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
     }
   }
 
@@ -386,15 +520,49 @@ watch(
     color: rgba(255, 255, 255, 0.65);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(24, 144, 255, 0.3);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
 
     &:hover {
       color: #fff;
-      background-color: rgba(255, 255, 255, 0.08);
+      background-color: rgba(24, 144, 255, 0.15);
+      box-shadow: 0 0 15px rgba(24, 144, 255, 0.4),
+        inset 0 0 10px rgba(24, 144, 255, 0.2);
+    }
+
+    &:hover::before {
+      width: 100%;
+      height: 100%;
     }
 
     .el-icon {
       font-size: 18px;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover .el-icon {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 8px rgba(24, 144, 255, 0.8));
+    }
+
+    &:active .el-icon {
+      transform: scale(1.1) rotate(90deg);
     }
   }
 }
@@ -404,42 +572,180 @@ watch(
   display: flex;
   flex-direction: column;
   min-height: 0;
-  /* allow children to control overflow */
+  position: relative;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f7fa 100%);
+
+  /* 科技感背景网格 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(24, 144, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(24, 144, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* 动态光效 */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+        rgba(24, 144, 255, 0.05) 0%,
+        transparent 50%);
+    animation: lightMove 15s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes lightMove {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(10%, 10%);
+  }
+
+  50% {
+    transform: translate(-5%, 15%);
+  }
+
+  75% {
+    transform: translate(15%, -5%);
+  }
 }
 
 .layout-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  background-color: #fff;
-  border-bottom: 1px solid #f0f0f0;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px) saturate(180%);
+  border-bottom: 1px solid rgba(24, 144, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.08),
+    0 1px 0 rgba(24, 144, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: headerSlideDown 0.6s ease-out;
+
+  /* 顶部发光线 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(24, 144, 255, 0.6) 25%,
+        rgba(24, 144, 255, 0.8) 50%,
+        rgba(24, 144, 255, 0.6) 75%,
+        transparent 100%);
+    background-size: 200% 100%;
+    animation: headerGlow 3s linear infinite;
+  }
 
   .header-left {
     flex: 1;
+    position: relative;
+    z-index: 1;
+
+    :deep(.el-breadcrumb) {
+      animation: breadcrumbFadeIn 0.8s ease-out;
+    }
+
+    :deep(.el-breadcrumb__item) {
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
   }
 
   .header-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
 
     .search-input {
-      width: 300px;
+      width: 280px;
+
+      :deep(.el-input__wrapper) {
+        background: rgba(245, 247, 250, 0.8);
+        border: 1px solid rgba(24, 144, 255, 0.1);
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 4px rgba(24, 144, 255, 0.05);
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          border-color: rgba(24, 144, 255, 0.3);
+          box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.08),
+            0 4px 8px rgba(24, 144, 255, 0.1);
+          transform: translateY(-1px);
+        }
+
+        &.is-focus {
+          background: rgba(255, 255, 255, 1);
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.15),
+            0 0 20px rgba(24, 144, 255, 0.2),
+            0 4px 12px rgba(24, 144, 255, 0.15);
+          transform: translateY(-2px);
+        }
+      }
+
+      :deep(.el-input__prefix) {
+        transition: all 0.3s ease;
+      }
+
+      &:hover :deep(.el-input__prefix) {
+        color: var(--primary-color);
+        transform: scale(1.1);
+      }
     }
 
     .header-item {
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .header-icon {
-      color: #666;
-      transition: color 0.3s;
+      color: var(--text-secondary);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
 
       &:hover {
-        color: #1890ff;
+        color: var(--primary-color);
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 8px rgba(24, 144, 255, 0.6));
       }
+    }
+
+    :deep(.el-badge__content) {
+      background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+      border: 2px solid var(--bg-white);
+      font-weight: 600;
+      animation: badgePulse 2s ease-in-out infinite;
     }
 
     .user-dropdown {
@@ -461,29 +767,175 @@ watch(
         .dropdown-icon {
           font-size: 12px;
           color: #999;
-          transition: transform 0.3s;
-        }
-
-        &:hover .dropdown-icon {
-          transform: rotate(180deg);
         }
       }
     }
   }
 }
 
+@keyframes headerSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes headerGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes breadcrumbFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes badgePulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.4);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(255, 77, 79, 0);
+  }
+}
+
 .layout-content {
   flex: 1 1 auto;
   overflow-y: auto;
-  background-color: #f0f2f5;
-  padding: 16px;
+  overflow-x: hidden;
+  background: transparent;
+  padding: 24px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+
+  /* 优化滚动体验 */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /* 内容区域入场动画 */
+  animation: contentFadeIn 0.8s ease-out;
+
+  /* 科技感装饰角 */
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(24, 144, 255, 0.15);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  &::before {
+    top: 64px;
+    left: 240px;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+  }
+
+  &::after {
+    bottom: 24px;
+    right: 24px;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 8px;
+  }
+
+  /* 滚动时的效果 */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(245, 247, 250, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg,
+        rgba(24, 144, 255, 0.3),
+        rgba(24, 144, 255, 0.5));
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(180deg,
+          rgba(24, 144, 255, 0.5),
+          rgba(24, 144, 255, 0.7));
+      box-shadow: 0 0 8px rgba(24, 144, 255, 0.4);
+    }
+  }
 }
 
-// 过渡动画
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .layout-header {
+    padding: 0 16px;
+
+    .header-right {
+      gap: 12px;
+
+      .search-input {
+        width: 180px;
+      }
+
+      .username {
+        display: none;
+      }
+    }
+  }
+
+  .layout-content {
+    padding: 16px;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+// 页面过渡动画增强
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
@@ -491,18 +943,42 @@ watch(
   opacity: 0;
 }
 
-.fade-transform-enter-active,
+.fade-transform-enter-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .fade-transform-leave-active {
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fade-transform-enter-from {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-30px) scale(0.98);
+  filter: blur(4px);
 }
 
 .fade-transform-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(30px) scale(0.98);
+  filter: blur(4px);
+}
+
+/* 给所有路由视图添加入场光效 */
+.layout-content>div {
+  animation: viewEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes viewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    box-shadow: 0 0 0 0 rgba(24, 144, 255, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 30px 0 rgba(24, 144, 255, 0);
+  }
 }
 </style>

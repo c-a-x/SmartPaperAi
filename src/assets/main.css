@@ -6,23 +6,823 @@
   margin: 0;
   padding: 0;
   font-weight: normal;
+  background: var(--bg-paper);
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+/* 通用卡片样式 */
+.card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardFadeIn 0.6s ease-out;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--primary-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  transition: width 0.5s ease;
+}
+
+.card-header:hover::after {
+  width: 100%;
+}
+
+/* 通用按钮增强 */
+.el-button {
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.el-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.el-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.el-button--primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.el-button--primary:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.el-button--primary:active {
+  transform: translateY(0);
+}
+
+/* 通用表格样式增强 */
+.el-table {
+  font-size: 14px;
+  color: var(--text-secondary);
+  animation: tableSlideUp 0.5s ease-out;
+}
+
+.el-table th {
+  background-color: var(--bg-paper-soft);
+  color: var(--text-primary);
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.el-table th:hover {
+  background-color: var(--bg-hover);
+}
+
+.el-table tr {
+  transition: all 0.3s ease;
+}
+
+.el-table tr:hover {
+  background-color: var(--bg-hover);
+  transform: scale(1.01);
+}
+
+.el-table td {
+  transition: all 0.2s ease;
+}
+
+/* 表格行渐入动画 */
+@keyframes tableRowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* Keep layout flexible across viewports; main layout components handle internal spacing */
-@media (min-width: 1024px) {
-  /* no global centering: allow app layout to manage its own grid */
+.el-table__row {
+  animation: tableRowFadeIn 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.el-table__row:nth-child(1) { animation-delay: 0.05s; }
+.el-table__row:nth-child(2) { animation-delay: 0.1s; }
+.el-table__row:nth-child(3) { animation-delay: 0.15s; }
+.el-table__row:nth-child(4) { animation-delay: 0.2s; }
+.el-table__row:nth-child(5) { animation-delay: 0.25s; }
+
+/* 通用表单样式 */
+.el-form-item__label {
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.el-input__inner,
+.el-textarea__inner {
+  border-color: var(--border-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.el-input__inner:focus,
+.el-textarea__inner:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.el-input__inner:hover,
+.el-textarea__inner:hover {
+  border-color: var(--primary-light);
+}
+
+/* 通用标签样式 */
+.el-tag {
+  border-radius: var(--radius-base);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  animation: tagPopIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.el-tag:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 统计卡片样式 */
+.stat-card {
+  background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-paper) 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-lighter);
+  position: relative;
+  overflow: hidden;
+  animation: cardSlideUp 0.6s ease-out;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(24, 144, 255, 0.03),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+}
+
+.stat-card:hover::before {
+  top: -100%;
+  right: -100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-lighter);
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: linear-gradient(135deg, var(--primary-lighter) 0%, var(--primary-color) 100%);
+  color: white;
+  margin-bottom: var(--spacing-md);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+.stat-card:hover .stat-card-icon {
+  transform: rotate(360deg) scale(1.1);
+}
+
+.stat-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  transition: all 0.3s ease;
+  animation: numberCountUp 1s ease-out;
+}
+
+.stat-card:hover .stat-card-value {
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.stat-card-label {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.stat-card:hover .stat-card-label {
+  color: var(--text-secondary);
+}
+
+/* 面包屑增强 */
+.el-breadcrumb {
+  font-size: 14px;
+  font-weight: 500;
+  animation: breadcrumbSlideIn 0.5s ease-out;
+}
+
+.el-breadcrumb__item {
+  color: var(--text-tertiary);
+  transition: all 0.3s ease;
+}
+
+.el-breadcrumb__item:hover {
+  color: var(--primary-color);
+  transform: translateX(2px);
+}
+
+.el-breadcrumb__item:last-child {
+  color: var(--primary-color);
+  font-weight: 600;
+  animation: breadcrumbHighlight 0.6s ease-out;
+}
+
+/* 消息提示增强 */
+.el-message {
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-xl);
+  animation: messageSlideDown 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.el-message:hover {
+  transform: scale(1.02);
+}
+
+/* 对话框增强 */
+.el-dialog {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  animation: dialogZoomIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+}
+
+.el-dialog__header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-lighter);
+  background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-paper) 100%);
+  transition: background 0.3s ease;
+}
+
+.el-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  animation: titleSlideIn 0.5s ease-out;
+}
+
+.el-dialog__body {
+  animation: contentFadeIn 0.6s ease-out;
+}
+
+/* 空状态样式 */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xxl);
+  color: var(--text-tertiary);
+  animation: emptyStateFadeIn 0.8s ease-out;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  color: var(--border-base);
+  margin-bottom: var(--spacing-md);
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+.empty-state-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  animation: textFadeIn 1s ease-out 0.3s both;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxl);
+  color: var(--primary-color);
+}
+
+.loading-container .el-icon {
+  animation: spin 1s linear infinite;
+}
+
+/* ==================== 关键帧动画 ==================== */
+
+/* 卡片渐入动画 */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 卡片滑入动画 */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 表格滑入动画 */
+@keyframes tableSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 图标脉冲动画 */
+@keyframes iconPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(24, 144, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(24, 144, 255, 0);
+  }
+}
+
+/* 数字计数动画 */
+@keyframes numberCountUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 标签弹入动画 */
+@keyframes tagPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 面包屑滑入动画 */
+@keyframes breadcrumbSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 面包屑高亮动画 */
+@keyframes breadcrumbHighlight {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 消息下滑动画 */
+@keyframes messageSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 对话框缩放动画 */
+@keyframes dialogZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 标题滑入动画 */
+@keyframes titleSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 内容渐入动画 */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 空状态渐入动画 */
+@keyframes emptyStateFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 图标浮动动画 */
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 文字渐入动画 */
+@keyframes textFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 旋转动画 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 渐变背景动画 */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 闪烁动画 */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 抖动动画 */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* 波纹扩散动画 */
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(24, 144, 255, 0.3),
+                0 0 0 0 rgba(24, 144, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(24, 144, 255, 0),
+                0 0 0 20px rgba(24, 144, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(24, 144, 255, 0),
+                0 0 0 30px rgba(24, 144, 255, 0);
+  }
+}
+
+/* ==================== 页面过渡动画 ==================== */
+
+/* 淡入淡出 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 滑动变换 */
+.fade-transform-enter-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-transform-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* 缩放过渡 */
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.3s ease;
+}
+
+.scale-enter-from {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.scale-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
+/* 滑动向上 */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+/* 滑动向下 */
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-down-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* 列表过渡 */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.4s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.list-move {
+  transition: transform 0.4s ease;
+}
+
+/* ==================== 通用动画类 ==================== */
+
+/* 悬浮效果 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 悬浮放大 */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* 悬浮发光 */
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(24, 144, 255, 0.3);
+}
+
+/* 点击效果 */
+.click-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.click-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.click-ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* 加载骨架屏 */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-paper-soft) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-paper-soft) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s ease-in-out infinite;
+  border-radius: var(--radius-base);
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 脉冲效果 */
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 弹跳效果 */
+.bounce {
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .stat-card {
+    padding: var(--spacing-md);
+  }
+
+  .stat-card-value {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: var(--spacing-md);
+  }
 }

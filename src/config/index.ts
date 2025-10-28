@@ -1,7 +1,7 @@
 // 全局配置文件
 export const config = {
   // API 基础地址
-  apiBaseUrl: 'http://495f3f5f.r6.cpolar.top',
+  apiBaseUrl: 'http://5ff7a467.r6.cpolar.top',
 
   // Token 存储键名
   tokenKey: 'smart_paper_token',
