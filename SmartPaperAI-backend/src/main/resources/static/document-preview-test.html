@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档预览测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #495057;
+            white-space: nowrap;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .preview-area {
+            padding: 30px;
+            min-height: 600px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .error h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            background: white;
+        }
+
+        object, embed {
+            width: 100%;
+            height: 800px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+        }
+
+        .preview-container {
+            position: relative;
+        }
+
+        .preview-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .preview-info {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-group {
+                min-width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📄 文档预览测试</h1>
+            <p>测试 /api/documents/{documentId}/preview 接口</p>
+        </div>
+
+        <div class="controls">
+            <div class="input-group">
+                <label for="documentId">文档ID:</label>
+                <input type="text" id="documentId" value="1980992020974006274" placeholder="输入文档ID">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="downloadMode">
+                <label for="downloadMode">下载模式</label>
+            </div>
+
+            <button class="btn btn-primary" onclick="previewDocument()">
+                🔍 预览文档
+            </button>
+
+            <button class="btn btn-secondary" onclick="clearPreview()">
+                🗑️ 清空
+            </button>
+        </div>
+
+        <div class="preview-area" id="previewArea">
+            <div class="info">
+                <strong>📌 使用说明：</strong>
+                1. 默认文档ID为 <code>1980992020974006274</code>，可以修改<br>
+                2. 不勾选"下载模式"时为在线预览（inline）<br>
+                3. 支持 PDF、Word、图片等多种格式<br>
+                4. 已配置 Authorization Token: <code>9c5111df-e01a-4cee-9ebc-76dbba0a7a45</code><br>
+                5. 点击"预览文档"按钮开始加载
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API基础URL（根据实际情况修改）
+        const API_BASE_URL = 'http://localhost:8080/api/documents';
+        
+        // Authorization Token
+        const AUTH_TOKEN = '9c5111df-e01a-4cee-9ebc-76dbba0a7a45';
+
+        // 预览文档
+        async function previewDocument() {
+            const documentId = document.getElementById('documentId').value.trim();
+            const downloadMode = document.getElementById('downloadMode').checked;
+            const previewArea = document.getElementById('previewArea');
+
+            if (!documentId) {
+                showError('请输入文档ID');
+                return;
+            }
+
+            // 显示加载状态
+            showLoading();
+
+            try {
+                // 构建URL
+                const url = `${API_BASE_URL}/${documentId}/preview?download=${downloadMode}`;
+                
+                console.log('请求URL:', url);
+                console.log('Authorization:', AUTH_TOKEN);
+
+                // 发起请求（移除 credentials 避免 CORS 问题）
+                const response = await fetch(url, {
+                    method: 'GET',
+                    // credentials: 'include', // 移除此行，避免 CORS preflight 失败
+                    headers: {
+                        'Accept': '*/*',
+                        'Authorization': AUTH_TOKEN
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                // 获取响应头信息
+                const contentType = response.headers.get('Content-Type');
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const contentLength = response.headers.get('Content-Length');
+
+                console.log('Content-Type:', contentType);
+                console.log('Content-Disposition:', contentDisposition);
+                console.log('Content-Length:', contentLength);
+
+                // 如果是下载模式，触发下载
+                if (downloadMode) {
+                    const blob = await response.blob();
+                    const filename = extractFilename(contentDisposition) || `document_${documentId}`;
+                    downloadBlob(blob, filename);
+                    showSuccess('文件下载已开始');
+                    return;
+                }
+
+                // 预览模式：根据文件类型处理
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+
+                // 显示预览
+                showPreview(blobUrl, contentType, contentDisposition, contentLength);
+
+            } catch (error) {
+                console.error('预览失败:', error);
+                showError('预览失败: ' + error.message);
+            }
+        }
+
+        // 显示加载状态
+        function showLoading() {
+            const previewArea = document.getElementById('previewArea');
+            previewArea.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载文档...</p>
+                </div>
+            `;
+        }
+
+        // 显示预览
+        function showPreview(blobUrl, contentType, contentDisposition, contentLength) {
+            const previewArea = document.getElementById('previewArea');
+            const filename = extractFilename(contentDisposition) || '未知文件';
+            const fileSize = formatFileSize(contentLength);
+
+            let previewHtml = `
+                <div class="preview-container">
+                    <div class="preview-toolbar">
+                        <div class="preview-info">
+                            📁 文件名: <strong>${filename}</strong> | 
+                            📊 大小: <strong>${fileSize}</strong> | 
+                            📝 类型: <strong>${contentType}</strong>
+                        </div>
+                        <button class="btn btn-secondary" onclick="downloadFromUrl('${blobUrl}', '${filename}')">
+                            ⬇️ 下载
+                        </button>
+                    </div>
+            `;
+
+            // 根据文件类型选择预览方式
+            if (contentType.includes('pdf')) {
+                previewHtml += `<iframe src="${blobUrl}" type="application/pdf"></iframe>`;
+            } else if (contentType.includes('image')) {
+                previewHtml += `<img src="${blobUrl}" alt="文档预览" style="max-width: 100%; height: auto; border-radius: 6px;">`;
+            } else if (contentType.includes('text') || contentType.includes('markdown')) {
+                // 文本文件异步加载内容
+                fetch(blobUrl)
+                    .then(r => r.text())
+                    .then(text => {
+                        document.getElementById('textContent').textContent = text;
+                    });
+                previewHtml += `<pre id="textContent" style="background: #f8f9fa; padding: 20px; border-radius: 6px; overflow: auto; max-height: 800px;">加载中...</pre>`;
+            } else {
+                // 其他文件类型尝试用 object/embed
+                previewHtml += `
+                    <object data="${blobUrl}" type="${contentType}">
+                        <embed src="${blobUrl}" type="${contentType}">
+                        <div class="info">
+                            <strong>⚠️ 浏览器无法直接预览此文件类型</strong><br>
+                            文件类型: ${contentType}<br>
+                            建议点击上方"下载"按钮下载后用本地软件打开
+                        </div>
+                    </object>
+                `;
+            }
+
+            previewHtml += '</div>';
+            previewArea.innerHTML = previewHtml;
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            const previewArea = document.getElementById('previewArea');
+            previewArea.innerHTML = `
+                <div class="error">
+                    <h3>❌ 错误</h3>
+                    <p>${message}</p>
+                </div>
+                <div class="info">
+                    <strong>💡 可能的原因：</strong>
+                    1. 文档ID不存在或无权访问<br>
+                    2. 后端服务未启动或URL配置错误<br>
+                    3. 需要登录认证但未提供 token/cookie<br>
+                    4. 网络连接问题
+                </div>
+            `;
+        }
+
+        // 显示成功信息
+        function showSuccess(message) {
+            const previewArea = document.getElementById('previewArea');
+            previewArea.innerHTML = `
+                <div class="info" style="background: #d4edda; border-color: #c3e6cb; color: #155724;">
+                    <strong>✅ ${message}</strong>
+                </div>
+            `;
+        }
+
+        // 清空预览
+        function clearPreview() {
+            const previewArea = document.getElementById('previewArea');
+            previewArea.innerHTML = `
+                <div class="info">
+                    <strong>📌 使用说明：</strong>
+                    1. 默认文档ID为 <code>1980992020974006274</code>，可以修改<br>
+                    2. 不勾选"下载模式"时为在线预览（inline）<br>
+                    3. 支持 PDF、Word、图片等多种格式<br>
+                    4. 点击"预览文档"按钮开始加载
+                </div>
+            `;
+        }
+
+        // 从 Content-Disposition 提取文件名
+        function extractFilename(contentDisposition) {
+            if (!contentDisposition) return null;
+            
+            // 匹配 filename="xxx" 或 filename*=UTF-8''xxx
+            const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+            if (filenameMatch && filenameMatch[1]) {
+                let filename = filenameMatch[1].replace(/['"]/g, '');
+                // 解码 URL 编码
+                try {
+                    filename = decodeURIComponent(filename);
+                } catch (e) {
+                    console.warn('文件名解码失败:', e);
+                }
+                return filename;
+            }
+            return null;
+        }
+
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (!bytes || bytes === 'null') return '未知';
+            bytes = parseInt(bytes);
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+        }
+
+        // 下载 Blob
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 从URL下载
+        function downloadFromUrl(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // 页面加载时自动预览（可选）
+        // window.onload = () => previewDocument();
+    </script>
+</body>
+</html>

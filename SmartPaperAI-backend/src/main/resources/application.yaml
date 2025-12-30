@@ -1,0 +1,426 @@
+--- ### 应用配置
+application:
+  id: GeekPaperAssistant
+  # 名称
+  name: GeekPaperAssistant
+  # 描述
+  description: 基于 RAG 的论文智能问答系统
+  # 版本
+  version: 1.0.27
+  # 基本包
+  base-package: com.ican
+  ## 作者信息配置
+  contact:
+    name: 席崇援
+    email: movclantianzy@qq.com
+--- ### Spring 配置
+spring:
+  application:
+    name: ican
+  
+  ## 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:7096/paperpass?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: tyut123456
+  
+  ## Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 7099
+      password: qwe123
+      database: 0
+      timeout: 10s
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 200
+          # 连接池最大阻塞等待时间(使用负值表示没有限制)
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
+
+  ## Cache 配置
+  cache:
+    type: redis
+    redis:
+      # 缓存过期时间（1小时）
+      time-to-live: 3600s
+      # 缓存键前缀
+      key-prefix: 'cache:'
+      # 是否使用缓存键前缀
+      use-key-prefix: true
+      # 是否缓存空值
+      cache-null-values: false
+
+  ## Neo4j 配置 - 知识图谱数据库
+  neo4j:
+    uri: bolt://localhost:7075
+    authentication:
+      username: neo4j
+      password: 0123456789
+    connection-timeout: 30s
+    max-transaction-retry-time: 15s
+  
+  ## Jackson 配置
+  jackson:
+    # 日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 时区
+    time-zone: GMT+8
+    # 序列化配置
+    serialization:
+      # 格式化输出
+      indent-output: false
+      # 忽略无法转换的对象
+      fail-on-empty-beans: false
+    # 反序列化配置
+    deserialization:
+      # 忽略未知属性
+      fail-on-unknown-properties: false
+
+--- ### 服务器配置
+spring:
+  main:
+    web-application-type: servlet
+
+server:
+  port: 8069
+  servlet:
+    # 应用的访问路径
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  ## 服务器扩展配置
+  extension:
+    enabled: true
+    # 默认禁止三个不安全的 HTTP 方法（CONNECT、TRACE、TRACK）
+    disallowed-methods:
+      - CONNECT
+      - TRACE
+      - TRACK
+
+--- ### 线程池配置
+spring.task:
+  # 异步任务
+  execution:
+    thread-name-prefix: task-pool
+    rejected-policy: CALLER_RUNS
+    pool:
+      keep-alive: 300s
+    shutdown:
+      await-termination: true
+      await-termination-period: 30s
+  # 定时任务
+  scheduling:
+    thread-name-prefix: schedule-pool
+    rejected-policy: CALLER_RUNS
+    shutdown:
+      await-termination: true
+      await-termination-period: 30s
+
+--- ### MyBatis Plus 配置
+mybatis-plus:
+  configuration:
+    # 是否开启自动驼峰命名规则映射
+    map-underscore-to-camel-case: true
+    # 日志实现
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      # 全局逻辑删除字段名
+      logic-delete-field: deleted
+      # 逻辑已删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
+  # Mapper XML 文件位置
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+--- ### Sa-Token 配置
+sa-token:
+  # token 名称 (同时也是 cookie 名称)
+  token-name: Authorization
+  # token 有效期(单位:秒) 默认30天, -1 代表永久有效
+  timeout: -1
+  # token 临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  active-timeout: -1
+  # 是否允许同一账号并发登录 (为 true 时允许一起登录, 为 false 时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时,是否共用一个 token (为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token)
+  is-share: true
+  # token 风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+
+--- ### Knife4j 接口文档配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    enable-footer: false
+    enable-footer-custom: true
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger.html
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+
+--- ### 日志配置
+logging:
+  level:
+    root: INFO
+    '[com.GeekPaperAssistant]': DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
+
+--- ### ContiNew Starter 日志配置
+continew-starter:
+  log:
+    # 记录信息
+    includes:
+      - DESCRIPTION
+      - MODULE
+      - REQUEST_HEADERS
+      - REQUEST_BODY
+      - IP_ADDRESS
+      - BROWSER
+      - OS
+      - RESPONSE_HEADERS
+      - RESPONSE_BODY
+    # 访问日志配置
+    access-log:
+      # 是否打印访问日志（类似于 Nginx access log）
+      enabled: true
+      # 是否打印请求参数（body/query/form）
+      print-request-param: true
+      # 是否自动截断超长参数值（如 base64、大文本）
+      long-param-truncate: true
+      # 超长参数检测阈值（单位：字符）
+      long-param-threshold: 2000
+      # 超长参数最大保留长度（单位：字符）
+      long-param-max-length: 50
+      # 截断后追加的后缀符号
+      long-param-suffix: ...
+      # 是否过滤敏感参数
+      param-sensitive: true
+      # 敏感参数字段列表
+      sensitive-params:
+        - password
+        - oldPassword
+        - token
+  
+  ## Web 模块配置
+  web:
+    # 跨域配置
+    cors:
+      enabled: true
+      # 配置允许跨域的域名
+      allowed-origins: '*'
+      # 配置允许跨域的请求方式
+      allowed-methods: '*'
+      # 配置允许跨域的请求头
+      allowed-headers: '*'
+      # 配置允许跨域的响应头
+      exposed-headers: '*'
+    
+    # 全局响应配置
+    response:
+      # 是否开启国际化（默认：false）
+      i18n: false
+      # 自定义失败 HTTP 状态码（默认：200，建议业务和通信状态码区分）
+      default-http-status-code-on-error: 200
+      # 自定义成功响应码（默认：0）
+      default-success-code: 0
+      # 自定义成功提示（默认：ok）
+      default-success-msg: 操作成功
+      # 自定义失败响应码（默认：1）
+      default-error-code: 1
+      # 自定义失败提示（默认：error）
+      default-error-msg: 操作失败
+      # 是否将原生异常错误信息填充到状态信息中
+      origin-exception-using-detail-message: true
+      # 响应类全名（配置后 response-style 将不再生效）
+      response-class-full-name: top.continew.starter.web.model.R
+
+--- ### 文件上传配置
+spring.servlet:
+  multipart:
+    # 单个文件最大大小
+    max-file-size: 1000MB
+    # 请求最大大小
+    max-request-size: 1000MB
+
+--- ### 验证码配置
+continew-starter.captcha:
+  graphic:
+    enabled: true
+    # 验证码类型
+    # ARITHMETIC：算术验证
+    # CHINESE：中文验证
+    # CHINESE_GIF：中文闪图验证
+    # SPEC：英文验证
+    # GIF：英文闪图验证
+    type: SPEC
+    # 验证码长度
+    length: 4
+    # 图片宽度
+    width: 130
+    # 图片高度
+    height: 48
+    # 字体大小
+    fontSize: 32
+
+--- ### 验证码业务配置
+captcha:
+  # 验证码在 Redis 中的 key 前缀
+  redis-key-prefix: 'captcha:'
+  # 验证码过期时间(分钟)
+  expire-minutes: 5
+
+--- ### 文件存储配置
+file:
+  storage:
+    # 本地存储基础路径
+    base-path: ./uploads
+    # 后续可替换为 MinIO 配置
+
+--- ### RAG 配置
+rag:
+  # 文档处理配置
+  document:
+    # 文档分块大小(token) - 建议300-800，太大会影响检索精度，太小会影响上下文完整性
+    chunk-size: 500
+    # 块间重叠(token) - 建议是chunk-size的10-20%，保证上下文连续性
+    chunk-overlap: 100
+    # 最小分块字符数 - 过滤掉过短的无意义文本块
+    min-chunk-size-chars: 50
+    # 最大分块字符数 - 防止单个块过大
+    max-chunk-size-chars: 2000
+    # 是否保留分隔符
+    keep-separator: true
+    # 支持的文件类型
+    allowed-types: pdf,doc,docx,md,txt
+    # 单个文件最大大小(MB)
+    max-file-size: 500
+
+--- ### 搜索网关配置
+search:
+  # 检索策略: vector(纯向量) / fulltext(纯ES) / hybrid(混合，默认)
+  strategy: hybrid
+  # ES 初始召回数量（混合检索时使用）
+  es:
+    initial-topk: 50
+  # 检索配置
+  retrieval:
+    # 默认检索文档片段数量 - 建议3-10，太多会增加噪声和token消耗
+    # 跨语言场景建议增加到10，确保覆盖更多候选文档
+    top-k: 10
+    # 相似度阈值 (0.0-1.0) - 跨语言检索时降低阈值到0.2-0.25
+    # text-embedding-v4支持100+语种，中英文混合查询时相似度略低于同语言
+    similarity-threshold: 0.25
+    # 是否启用重排序 - 使用LLM对检索结果重新评分排序，提升精度但增加耗时
+    # 跨语言场景强烈建议启用，可以进一步优化检索质量
+    enable-reranking: true
+    # 重排序时的扩展因子 - retrieveTopK = topK * expandFactor，先多检索再重排
+    rerank-expand-factor: 6
+    # 是否启用混合检索 - 结合向量检索和全文检索，适用于SearchService
+    enable-hybrid-search: true
+  # 混合搜索配置（仅在 enable-hybrid-search=true 时生效）
+  hybrid-search:
+    # 向量搜索数量 - 混合检索时向量检索的文档数
+    vector-top-k: 20
+    # 向量相似度阈值 - 混合检索时向量精排的阈值
+    vector-similarity-threshold: 0.25
+    # 向量搜索权重 - 向量检索和全文检索的权重比例，总和应为1.0
+    vector-weight: 0.6
+    # 全文搜索权重
+    text-weight: 0.4
+spring.ai:
+  ## Retry 配置 - 用于处理超时和重试机制
+  retry:
+    # 最大重试次数
+    max-attempts: 3
+    backoff:
+      # 初始退避间隔(毫秒)
+      initial-interval: 20000
+      # 退避间隔乘数
+      multiplier: 2
+      # 最大退避间隔(毫秒)
+      max-interval: 100000
+    # 是否对客户端错误(4xx)进行重试
+    on-client-errors: false
+  ## Vector Store 配置 - Elasticsearch
+  vectorstore:
+    elasticsearch:
+      # 是否初始化 Schema (索引结构)
+      initialize-schema: true
+      # 索引名称
+      index-name: spring-ai-document-index
+      # 向量维度 (需与 embedding 模型匹配)
+      dimensions: 1536
+      # 相似度算法: cosine(余弦), l2_norm(欧几里得), dot_product(点积)
+      similarity: cosine
+  openai:
+    api-key: sk-361aaafb23fd40c7bc3d3f5d9f629d03
+    base-url: https://dashscope.aliyuncs.com/compatible-mode/
+    chat:
+      options:
+        model: qwen-plus
+        # 温度参数(0.0-2.0),控制响应的随机性
+        temperature: 0.7
+        # 最大生成token数,避免响应过长导致超时
+        max-tokens: 5000
+    embedding:
+      options:
+        model: text-embedding-v2
+        # 显式指定向量维度为 1536（text-embedding-v4 默认是 1024，支持 64/128/256/512/768/1024/1536/2048）
+        dimensions: 1536
+  ## Chat Memory 配置
+  chat:
+    memory:
+      repository:
+        jdbc:
+          # 自动初始化数据库表结构
+          initialize-schema: always
+# 自定义聊天配置
+chat:
+  # 最大历史消息数量
+  max-history-messages: 20
+  # 是否异步生成标题
+  async-title-generation: true
+
+--- ### Spring AI 顾问配置
+advisor:
+  # 记忆顾问配置
+  memory:
+    type: message
+    default-order: 0
+## GROBID 配置 (学术论文元数据提取)
+grobid:
+  # 是否启用 GROBID (需要先部署 GROBID 服务)
+  enabled: true
+  # GROBID 服务地址
+  server-url: http://localhost:8010
+  # 连接超时时间
+  connection-timeout: 30s
+  # 读取超时时间
+  read-timeout: 60s
+## Elasticsearch 原生客户端配置
+elasticsearch:
+  uris:
+    - http://localhost:9201
